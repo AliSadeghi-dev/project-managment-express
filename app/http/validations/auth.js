@@ -61,7 +61,10 @@ function login() {
           return true;
         }
         throw "نام کاربری صحیح نمیباشد.";
-      })
+      }),
+    body("password")
+      .isLength({ min: 6, max: 16 })
+      .withMessage("کلمه عبور باید حداقل 6 و حداکثر 16 نویسه باشد ."),
   ];
 }
 
