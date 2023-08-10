@@ -1,3 +1,5 @@
+const { allRoutes } = require("./router/router");
+
 module.exports = class Application {
   #express = require("express");
   #App = this.#express();
@@ -53,5 +55,13 @@ module.exports = class Application {
     this.#App.get("/", (req, res) => {
       return res.json({ message: "welcome to my new app" });
     });
+    const catchAllRoutes=(err,req,res,next)=>{
+      try {
+        this.#App.use("/api/v1", allRoutes);
+      } catch (error) {
+        next(err)
+      }
+    }
+    catchAllRoutes();
   }
 };
