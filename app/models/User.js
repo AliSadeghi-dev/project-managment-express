@@ -33,11 +33,15 @@ const UserSchema = new mongoose.Schema(
     },
     skills: {
       type: [String],
-      default:[]
+      default: [],
     },
     teams: {
       type: [mongoose.Types.ObjectId],
-      default:[]
+      default: [],
+    },
+    token: {
+      type: String,
+      default: "",
     },
   },
   {

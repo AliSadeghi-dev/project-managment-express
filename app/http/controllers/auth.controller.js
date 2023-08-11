@@ -1,5 +1,5 @@
 const { UserModel } = require("../../models/User");
-const { HashString } = require("../../modules/functions");
+const { HashString, tokenGenerator } = require("../../modules/functions");
 const bcrypt = require("bcrypt");
 class AuthController {
   async register(req, res, next) {
@@ -36,7 +36,15 @@ class AuthController {
       if (!compareResult) {
         res.status(401).json({ message: "نام کاربری یا رمز عبور اشتباه است." });
       }
-      return res.status(200).json({ message: "شما با موفقیت احراز شدید." });
+      const token = tokenGenerator({ username });
+      user.token = token;
+      await user.save();
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "شما با موفقیت احراز شدید.",
+        token,
+      });
     } catch (error) {
       next(error);
     }
