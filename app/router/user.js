@@ -1,5 +1,10 @@
-const router = require('express').Router();
+const { UserController } = require("../http/controllers/user.controller");
+const { checkLogin } = require("../modules/checkLogin");
 
-module.exports={
-    userRoutes : router
-}
+const router = require("express").Router();
+
+router.get("/profile",checkLogin, UserController.getProfile);
+
+module.exports = {
+  userRoutes: router,
+};
