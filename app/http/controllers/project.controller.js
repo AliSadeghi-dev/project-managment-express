@@ -20,6 +20,14 @@ class ProjectController {
   }
 
   async getAllProject(req, res, next) {
+    const owner = req.user._id;
+    const projects = await ProjectModel.find({ owner });
+    if(!projects) throw {status: 404, message:"این کاربر پروژه ای ثبت نکرده است."}
+    return res.status(200).json({
+        status:200,
+        success:true,
+        projects
+    })
     try {
     } catch (error) {
       next(error);

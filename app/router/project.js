@@ -17,6 +17,8 @@ router.post(
   ProjectController.createProject
 );
 
+router.get("/getallproject", checkLogin, ProjectController.getAllProject);
+
 module.exports = {
   projectRoutes: router,
 };
