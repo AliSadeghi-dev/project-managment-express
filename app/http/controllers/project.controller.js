@@ -4,12 +4,13 @@ class ProjectController {
   async createProject(req, res, next) {
     try {
       const owner = req.user._id;
-      const { title, text,image } = req.body;
+      const { title, text,image,tags } = req.body;
       const result = await ProjectModel.create({
         title,
         text,
         owner,
-        image
+        image,
+        tags
       });
       if (!result) throw { status: 400, message: "افزودن پروژه انجام نشد.   " };
       res.status(201).json(result);

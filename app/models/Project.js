@@ -24,6 +24,10 @@ const ProjectSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
     },
+    tags: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,
