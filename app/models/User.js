@@ -22,6 +22,9 @@ const UserSchema = new mongoose.Schema(
       type: [String],
       default: ["USER"],
     },
+    profile_image:{
+      type: String,
+    },
     email: {
       type: String,
       required: true,
