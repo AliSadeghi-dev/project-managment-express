@@ -21,7 +21,7 @@ router.post(
 router.get("/all", checkLogin, ProjectController.getAllProject);
 router.get("/getone", checkLogin, ProjectController.getProjectById);
 router.delete("/delete", checkLogin,mongoIdValidator(), ProjectController.removeProject);
-router.patch("/update", checkLogin,mongoIdValidator(), ProjectController.updateProject);
+router.put("/update", checkLogin,mongoIdValidator(), ProjectController.updateProject);
 
 module.exports = {
   projectRoutes: router,

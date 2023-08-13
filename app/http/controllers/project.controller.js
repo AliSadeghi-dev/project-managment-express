@@ -1,6 +1,9 @@
 const { ProjectModel } = require("../../models/Project");
-
+const auto_bind = require("auto-bind");
 class ProjectController {
+  constructor() {
+    auto_bind(this);
+  }
   async createProject(req, res, next) {
     try {
       const owner = req.user._id;
@@ -38,12 +41,17 @@ class ProjectController {
     }
   }
 
+  async findProjectById(owner, projectId) {
+    const project = await ProjectModel.findOne({ owner, _id: projectId });
+    if (!project) throw { status: 404, message: "پروژه ای یافت نشد." };
+    return project;
+  }
+
   async getProjectById(req, res, next) {
     try {
       const owner = req.user._id;
-      const projectID = req.body.id;
-      const project = await ProjectModel.findOne({ owner, _id: projectID });
-      if (!project) throw { status: 404, message: "پروژه ای یافت نشد." };
+      const { id } = req.query;
+      const project = await this.findProjectById(owner, id);
       return res.status(200).json({
         status: 200,
         success: true,
@@ -56,6 +64,8 @@ class ProjectController {
 
   async updateProject(req, res, next) {
     try {
+      const owner = req.user._id;
+      const { id } = req.query;
     } catch (error) {
       next(error);
     }
@@ -63,12 +73,12 @@ class ProjectController {
 
   async removeProject(req, res, next) {
     try {
-      const projectID = req.body.id;
+      const { id } = req.query;
       const project = await ProjectModel.findOne({
-        _id: projectID,
+        _id: id,
       });
       if (!project) throw { status: 404, message: "پروژه ای یافت نشد." };
-      const deleteResult = await ProjectModel.deleteOne({ _id: projectID });
+      const deleteResult = await ProjectModel.deleteOne({ _id: id });
       if (deleteResult.deleteCount == 0)
         throw { status: 404, message: "پروژه حذف نشد." };
       return res.status(200).json({
